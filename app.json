@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "BiblieApp",
+    "slug": "BiblieApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "BiblieApp"
+}
