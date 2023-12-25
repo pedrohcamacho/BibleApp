@@ -1,9 +1,13 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React from 'react'
 import {colors, fonts} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Devotional from '../assets/Devotional.jpg';
+import Suppler from '../assets/Suppler.jpg';
+import Youngs from '../assets/Youngs.jpg';
+import JesusBirth from '../assets/JesusBirth.jpg';
 import { LinearGradient } from 'expo-linear-gradient';
+import {Card} from '../components/Card';
 
 export function Home() {
   return (
@@ -27,7 +31,12 @@ export function Home() {
         </View>
 
         <View style={styles.warnings}>
-        <Text style={styles.devotionalText}>Avisos importantes</Text>
+        <Text style={styles.devotionalText}>Próximas programações</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Card image={Suppler} text="Culto de ceia"/>
+            <Card image={JesusBirth} text="Culto de natal"/>
+            <Card image={Youngs} text="Culto de jovens"/>
+        </ScrollView>
         </View>
     </View>
   )
