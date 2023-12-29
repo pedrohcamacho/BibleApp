@@ -35,37 +35,39 @@ export function Home() {
   return (
     <View style={styles.container}>
         <SafeAreaView/>
-        <View style={styles.header}>
-            <View style={styles.welcomeMessage}>
-                <Text style={styles.title}>Seja bem vindo</Text>
+        <ScrollView>
+            <View style={styles.header}>
+                <View style={styles.welcomeMessage}>
+                    <Text style={styles.title}>Seja bem vindo</Text>
+                </View>
+                <TouchableOpacity style={styles.user}>
+                    <Text style={styles.title}>U</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.user}>
-                <Text style={styles.title}>U</Text>
-            </TouchableOpacity>
-        </View>
-        {randomVerse.length == 0 ? null :
-            <View style={styles.verseOfTheDay}>
-                <Text style={styles.devotionalText}>Versículo do dia</Text>
-                <Text style={styles.verse}>{randomVerse.text}</Text>
-                <Text style={styles.ref}>{randomVerse.book.name } {randomVerse.chapter }:{randomVerse.number }</Text>
+            {randomVerse.length == 0 ? null :
+                <View style={styles.verseOfTheDay}>
+                    <Text style={styles.devotionalText}>Versículo do dia</Text>
+                    <Text style={styles.verse}>{randomVerse.text}</Text>
+                    <Text style={styles.ref}>{randomVerse.book.name } {randomVerse.chapter }:{randomVerse.number }</Text>
+                </View>
+            }
+            <View style={styles.devotional}> 
+                <Text style={styles.devotionalText}>Devocional diário</Text>
+                <View style={{marginTop:"3%"}}>
+                    <Image source={Devotional} style={styles.devotionalImage}/> 
+                    <LinearGradient colors={["rgba(0,0,0,0.45)", 'transparent']} style={styles.gradient}/>
+                </View>
             </View>
-        }
-        <View style={styles.devotional}> 
-            <Text style={styles.devotionalText}>Devocional diário</Text>
-            <View style={{marginTop:"3%"}}>
-                <Image source={Devotional} style={styles.devotionalImage}/> 
-                <LinearGradient colors={["rgba(0,0,0,0.45)", 'transparent']} style={styles.gradient}/>
-            </View>
-        </View>
 
-        <View style={styles.warnings}>
-        <Text style={styles.devotionalText}>Próximas programações</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <Card image={Suppler} text="Culto de ceia"/>
-            <Card image={JesusBirth} text="Culto de natal"/>
-            <Card image={Youngs} text="Culto de jovens"/>
+            <View style={styles.warnings}>
+            <Text style={styles.devotionalText}>Próximas programações</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <Card image={Suppler} title="Culto de ceia" text="Domingo as 19h30"/>
+                <Card image={JesusBirth} title="Culto de natal" text="Domingo dia 23/12 as 19h30"/>
+                <Card image={Youngs} title="Culto de jovens" text="Sábado as 19h30"/>
+            </ScrollView>
+            </View>
         </ScrollView>
-        </View>
     </View>
   )
 }
