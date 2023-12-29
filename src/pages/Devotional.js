@@ -7,14 +7,15 @@ import {Verse} from '../components/Verse';
 import axios from 'axios';
 import {Loading} from '../components/Loading';
 import { ModalView } from '../components/ModalView';
+import {ChapterGenerator} from '../Util/ChapterGenerator';
 
 export function Devotional() {
 
 const [data, setData] = useState([]);
-const [book, setBook] = useState({ "abbrev": {"pt":"jo","en":"jo"},});
+const [book, setBook] = useState({ "abbrev": {"pt":"jo","en":"jo"},"chapters":21});
 const [books, setBooks] = useState([]);
 const [chapters, setChapters] = useState([]);
-const [chapter, setChapter] = useState("1");
+const [chapter, setChapter] = useState({"number": 1});
 const [versions, setVersions] = useState("nvi");
 const [version, setVersion] = useState("nvi");
 const [modalBook, setModalBook] = useState(false);
@@ -23,7 +24,7 @@ const [modalVersion, setModalVersion] = useState(false);
 
 const optionsVerses = {
   method: 'GET',
-  url: `https://www.abibliadigital.com.br/api/verses/${version}/${book.abbrev.pt}/${chapter}`,
+  url: `https://www.abibliadigital.com.br/api/verses/${version}/${book.abbrev.pt}/${chapter.number}`,
   headers: process.env.TOKEN
 };
 
@@ -53,6 +54,17 @@ function handleBookSelected(item){
 setBook(item);
 setModalBook(false);
 }
+
+function handleChapterSelected(chapter){
+  setChapter({"number":chapter});
+  setModalChapter(false);
+  }
+
+async function getAllChapters() {
+  let getAllChapters = ChapterGenerator(book.chapters)
+  setModalChapter(true)
+  setChapters(getAllChapters)
+  }
 
 async function getAllBooks() {
   setModalBook(true)
@@ -92,7 +104,7 @@ async function getAllVersions() {
               <TouchableOpacity style={[styles.buttonStyle, styles.chapter]} onPress={()=> getAllBooks()}>
                     <Text style={styles.textStyle}>{book.name || "João"}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonStyle, styles.verse]}>
+                <TouchableOpacity style={[styles.buttonStyle, styles.verse]} onPress={()=> getAllChapters()}>
                     <Text style={styles.textStyle}>{chapter.number || "1"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.buttonStyle, styles.version]} onPress={()=> getAllVersions()}>
@@ -119,6 +131,20 @@ async function getAllVersions() {
                 <Text style={{fontFamily:fonts.text, fontSize:14, color:colors.title}}>{item.name}</Text>
               </TouchableOpacity>}
               keyExtractor={(item) => item.abbrev.pt}
+              ItemSeparatorComponent={()=> <View style={{height:5}}></View>}
+              ListFooterComponent={<View />}
+              ListFooterComponentStyle={{marginBottom:40}}/>
+        </ModalView>
+
+        <ModalView visible={modalChapter} closeModal={()=> setModalChapter(false)} title="Capítulos">
+           <FlatList
+              contentContainerStyle={{marginLeft:5}}
+              data={chapters}
+              renderItem={({item}) => 
+              <TouchableOpacity onPress={()=> handleChapterSelected(item.number)} style={{paddingBottom:5,paddingLeft:5}}>
+                <Text style={{fontFamily:fonts.text, fontSize:14, color:colors.title}}>{item.number}</Text>
+              </TouchableOpacity>}
+              keyExtractor={(item) => item.number}
               ItemSeparatorComponent={()=> <View style={{height:5}}></View>}
               ListFooterComponent={<View />}
               ListFooterComponentStyle={{marginBottom:40}}/>
