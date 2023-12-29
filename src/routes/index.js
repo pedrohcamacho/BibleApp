@@ -29,7 +29,7 @@ return (
       options={{
         tabBarIcon: ({size, color}) => <FontAwesome5 name="bible" size={size} color={color}/>,
         headerShown:false,
-        title:"Devocional"
+        title:"Leitura"
       }}/>
 
     </Navigator>

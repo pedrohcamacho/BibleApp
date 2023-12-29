@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {colors, fonts} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Devotional from '../assets/Devotional.jpg';
@@ -7,9 +7,31 @@ import Suppler from '../assets/Suppler.jpg';
 import Youngs from '../assets/Youngs.jpg';
 import JesusBirth from '../assets/JesusBirth.jpg';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 import {Card} from '../components/Card';
 
 export function Home() {
+    const [randomVerse,setRandomVerse] = useState([])
+
+    const optionsRandomVerse = {
+        method: 'GET',
+        url: `https://www.abibliadigital.com.br/api/verses/nvi/random`,
+        headers: process.env.TOKEN
+      };
+
+      async function getRandomVerse() {
+        try {
+          const response = await axios.request(optionsRandomVerse);
+          setRandomVerse(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      useEffect(()=>{
+        getRandomVerse()
+      },[])
+
   return (
     <View style={styles.container}>
         <SafeAreaView/>
@@ -21,7 +43,13 @@ export function Home() {
                 <Text style={styles.title}>U</Text>
             </TouchableOpacity>
         </View>
-
+        {randomVerse.length == 0 ? null :
+            <View style={styles.verseOfTheDay}>
+                <Text style={styles.devotionalText}>Versículo do dia</Text>
+                <Text style={styles.verse}>{randomVerse.text}</Text>
+                <Text style={styles.ref}>{randomVerse.book.name } {randomVerse.chapter }:{randomVerse.number }</Text>
+            </View>
+        }
         <View style={styles.devotional}> 
             <Text style={styles.devotionalText}>Devocional diário</Text>
             <View style={{marginTop:"3%"}}>
@@ -69,9 +97,25 @@ const styles = {
         fontFamily: fonts.header,
         fontSize:18,
     },
+    verseOfTheDay:{
+        marginLeft:"8%",
+        marginTop:"5%",
+        marginRight:"5%"
+    },
+    verse:{
+        marginTop:5,
+        fontFamily:fonts.text,
+        color:colors.black,
+        fontSize:13
+    },
+    ref:{
+        fontFamily:fonts.title,
+        color:colors.black,
+        fontSize:13
+    },
     devotional:{
         marginLeft:"8%",
-        marginTop:"8%",
+        marginTop:"5%",
         marginRight:"5%"
     },
     devotionalText:{
@@ -81,7 +125,7 @@ const styles = {
     },
     devotionalImage:{
         width:"100%",
-        height:256,
+        height:220,
         borderRadius:10,
     },
     gradient:{
