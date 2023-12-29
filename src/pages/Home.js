@@ -9,8 +9,10 @@ import JesusBirth from '../assets/JesusBirth.jpg';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import {Card} from '../components/Card';
+import { useNavigation } from '@react-navigation/native';
 
 export function Home() {
+    const navigation = useNavigation();
     const [randomVerse,setRandomVerse] = useState([])
 
     const optionsRandomVerse = {
@@ -51,13 +53,13 @@ export function Home() {
                     <Text style={styles.ref}>{randomVerse.book.name } {randomVerse.chapter }:{randomVerse.number }</Text>
                 </View>
             }
-            <View style={styles.devotional}> 
+            <TouchableOpacity style={styles.devotional} onPress={()=> navigation.navigate("Devotional")}> 
                 <Text style={styles.devotionalText}>Devocional diário</Text>
                 <View style={{marginTop:"3%"}}>
                     <Image source={Devotional} style={styles.devotionalImage}/> 
                     <LinearGradient colors={["rgba(0,0,0,0.45)", 'transparent']} style={styles.gradient}/>
                 </View>
-            </View>
+            </TouchableOpacity>
 
             <View style={styles.warnings}>
             <Text style={styles.devotionalText}>Próximas programações</Text>
