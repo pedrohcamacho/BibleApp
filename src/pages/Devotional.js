@@ -60,6 +60,11 @@ function handleChapterSelected(chapter){
   setModalChapter(false);
   }
 
+  function handleVersionSelected(version) {
+    setVersion(version)
+    setModalVersion(false)
+  }
+
 async function getAllChapters() {
   let getAllChapters = ChapterGenerator(book.chapters)
   setModalChapter(true)
@@ -80,7 +85,7 @@ async function getAllVersions() {
   setModalVersion(true)
   try {
     const response = await axios.request(optionsVersions);
-    setBooks(response.data);
+    setVersions(response.data);
   } catch (error) {
     console.error(error);
   }
@@ -108,7 +113,7 @@ async function getAllVersions() {
                     <Text style={styles.textStyle}>{chapter.number || "1"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.buttonStyle, styles.version]} onPress={()=> getAllVersions()}>
-                    <Text style={styles.textStyle}>{version.version || "NVI"}</Text>
+                    <Text style={styles.textStyle}>{version || "nvi"}</Text>
                 </TouchableOpacity>
             </View>
         </View>  
@@ -145,6 +150,20 @@ async function getAllVersions() {
                 <Text style={{fontFamily:fonts.text, fontSize:14, color:colors.title}}>{item.number}</Text>
               </TouchableOpacity>}
               keyExtractor={(item) => item.number}
+              ItemSeparatorComponent={()=> <View style={{height:5}}></View>}
+              ListFooterComponent={<View />}
+              ListFooterComponentStyle={{marginBottom:40}}/>
+        </ModalView>
+
+        <ModalView visible={modalVersion} closeModal={()=> setModalVersion(false)} title="Versões">
+           <FlatList
+              contentContainerStyle={{marginLeft:5}}
+              data={versions}
+              renderItem={({item}) => 
+              <TouchableOpacity onPress={()=> handleVersionSelected(item.version)} style={{paddingBottom:5,paddingLeft:5}}>
+                <Text style={{fontFamily:fonts.text, fontSize:14, color:colors.title}}>{item.version}</Text>
+              </TouchableOpacity>}
+              keyExtractor={(item) => item.version}
               ItemSeparatorComponent={()=> <View style={{height:5}}></View>}
               ListFooterComponent={<View />}
               ListFooterComponentStyle={{marginBottom:40}}/>
