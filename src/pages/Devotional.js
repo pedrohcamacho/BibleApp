@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList, Modal, ScrollView } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import React, {useMemo, useState} from 'react'
 import {colors, fonts} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 // import data from '../../Data';
@@ -91,7 +91,7 @@ async function getAllVersions() {
   }
 }
 
-  useEffect(()=>{
+useMemo(()=>{
     getResponse(optionsVerses)
   },[book,version,chapter])
 
@@ -163,7 +163,7 @@ async function getAllVersions() {
               <TouchableOpacity onPress={()=> handleVersionSelected(item.version)} style={{paddingBottom:5,paddingLeft:5}}>
                 <Text style={{fontFamily:fonts.text, fontSize:14, color:colors.title}}>{item.version}</Text>
               </TouchableOpacity>}
-              keyExtractor={(item) => item.version}
+              keyExtractor={(index) => index}
               ItemSeparatorComponent={()=> <View style={{height:5}}></View>}
               ListFooterComponent={<View />}
               ListFooterComponentStyle={{marginBottom:40}}/>

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useMemo} from 'react'
 import {colors, fonts} from '../styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Devotional from '../assets/Devotional.jpg';
@@ -28,7 +28,7 @@ export function Home() {
         }
       }
 
-      useEffect(()=>{
+      useMemo(()=>{
         getRandomVerse()
       },[])
 
