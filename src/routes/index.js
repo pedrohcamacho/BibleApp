@@ -6,8 +6,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {colors} from '../styles';
 import {FontAwesome5} from '@expo/vector-icons';
-import {StackRoutes} from './stack.routes';
-// const stackRoutes = createStackNavigator();
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
